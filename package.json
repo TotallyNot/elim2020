@@ -1,0 +1,21 @@
+{
+  "name": "elim2020_userscript",
+  "version": "0.0.1",
+  "description": "dev dependencies for userscript",
+  "main": "elim2020.user.js",
+  "scripts": {
+    "lint": "node_modules/.bin/eslint *.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:TotallyNot/elim2020.git"
+  },
+  "author": "Pyrit[2111649]",
+  "license": "BSD-3-Clause",
+  "devDependencies": {
+    "babel-eslint": "^10.1.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.11.0",
+    "prettier": "^2.0.5"
+  }
+}
