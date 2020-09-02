@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name         Elimination filter
 // @namespace    site.elim2019
-// @version      0.0.1
+// @version      0.0.2
 // @updateURL    https://raw.githubusercontent.com/TotallyNot/elim2020/master/elim2020.user.js
 // @description  Filter the elimination team lists using user defined conditions.
-// @author       Pyrit[2111649]
+// @author       Pyrit [2111649]
 // @match        https://www.torn.com/*
 // @match        https://elim2019.site/index*
 // @match        http://localhost:8080/index*
@@ -80,7 +80,7 @@ function pick(object, keys) {
     );
 }
 
-class memoListener {
+class MemoListener {
     constructor(propKeys, body) {
         this.propKeys = propKeys;
         this.body = body;
@@ -103,7 +103,7 @@ GM.getValue("state").then((value) => {
     reducer(state);
 });
 
-const storageListener = new memoListener(["token", "toggled"], (props) =>
+const storageListener = new MemoListener(["token", "toggled"], (props) =>
     GM.setValue("state", JSON.stringify(props))
 );
 listeners.push(storageListener);
@@ -127,7 +127,7 @@ if (
         characterData: true,
     });
 
-    const tokenListener = new memoListener(
+    const tokenListener = new MemoListener(
         ["hydrated", "token", "valid"],
         ({ hydrated, token, valid }) => {
             if (!hydrated || valid === undefined) return;
@@ -219,7 +219,7 @@ if (location.hostname === "www.torn.com") {
 
     document.querySelector("head").appendChild(styles);
 
-    const infoWidget = new memoListener(
+    const infoWidget = new MemoListener(
         ["token", "toggled", "valid", "filters"],
         ({ token, toggled, valid, filters }) => {
             let mountPoint = document.querySelector("#elim-mount-point");
@@ -272,13 +272,36 @@ if (location.hostname === "www.torn.com") {
         }
     );
     listeners.push(infoWidget);
+
+    const playerListener = new MemoListener(
+        ["players", "toggled", "valid", "filters", "filteredIDs"],
+        ({ players, toggled, valid, filters, filteredIDs }) => {
+            if (!players) return;
+
+            if (!toggled || !valid || !filters) {
+                player.forEach((player) => {
+                    player.style.display = "block";
+                });
+            }
+            if (toggled) {
+                if (!filteredIDs) {
+                    player.forEach((player) => {
+                        player.style.display = "none";
+                    });
+                } else {
+                    // TODO: filter ids and make visible...
+                }
+            }
+        }
+    );
+    listeners.push(playerListener);
 }
 
 // }}}
 
 // {{{ common
 
-const tokenListener = new memoListener(
+const tokenListener = new MemoListener(
     ["token"],
     ({ token }) =>
         token &&
