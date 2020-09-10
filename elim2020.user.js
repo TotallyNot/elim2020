@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Elimination filter
 // @namespace    me.elimination
-// @version      0.1.0
+// @version      0.1.1
 // @updateURL    https://raw.githubusercontent.com/TotallyNot/elim2020/master/elim2020.user.js
 // @description  Filter the elimination team lists using user defined conditions.
 // @author       Pyrit[2111649]
@@ -279,8 +279,11 @@ if (location.hostname === "www.torn.com") {
         ) {
             const users = [
                 ...competitionWrap.querySelectorAll(".competition-list > li"),
-            ];
-            reducer({ users });
+            ].filter((user) => user.querySelector(".name .user"));
+
+            if (users.length) {
+                reducer({ users });
+            }
         }
     });
     observer.observe(competitionWrap, { subtree: true, childList: true });
@@ -288,7 +291,7 @@ if (location.hostname === "www.torn.com") {
     const userListener = new MemoListener(
         ["users", "token", "valid"],
         ({ users, token, valid }) => {
-            if (!token || !valid) return;
+            if (!token || !valid || !users) return;
             const userIDs = users.map((user) =>
                 parseInt(
                     user.querySelector(".name .user").href.match(/[0-9]+/)[0]
