@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Elimination filter
 // @namespace    me.elimination
-// @version      0.1.2
+// @version      0.1.3
 // @updateURL    https://raw.githubusercontent.com/TotallyNot/elim2020/master/elim2020.user.js
 // @description  Filter the elimination team lists using user defined conditions.
 // @author       Pyrit[2111649]
@@ -276,7 +276,7 @@ if (location.hostname === "www.torn.com") {
         if (
             mutations.some((mutation) => mutation.addedNodes.length > 0) &&
             (location.href.indexOf("&team=") !== -1 ||
-                location.href.indexOf("p=revenge"))
+                location.href.indexOf("p=revenge") !== -1)
         ) {
             const users = [
                 ...competitionWrap.querySelectorAll(".competition-list > li"),
