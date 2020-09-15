@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Elimination filter
 // @namespace    me.elimination
-// @version      0.1.3
+// @version      0.1.4
 // @updateURL    https://raw.githubusercontent.com/TotallyNot/elim2020/master/elim2020.user.js
 // @description  Filter the elimination team lists using user defined conditions.
 // @author       Pyrit[2111649]
@@ -304,6 +304,7 @@ if (location.hostname === "www.torn.com") {
                     ","
                 )}`,
                 {
+                    method: "GET",
                     headers: {
                         authorization: `Bearer ${token}`,
                     },
@@ -364,6 +365,7 @@ const tokenListener = new MemoListener(
     ({ token }) =>
         token &&
         gmFetch("https://elimination.me/api/elimination/status", {
+            method: "GET",
             headers: {
                 authorization: `Bearer ${state.token}`,
             },
