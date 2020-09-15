@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Elimination filter
 // @namespace    me.elimination
-// @version      0.1.4
+// @version      0.1.5
 // @updateURL    https://raw.githubusercontent.com/TotallyNot/elim2020/master/elim2020.user.js
 // @description  Filter the elimination team lists using user defined conditions.
 // @author       Pyrit[2111649]
@@ -146,9 +146,19 @@ if (location.hostname === "elimination.me") {
 if (location.hostname === "www.torn.com") {
     const styles = document.createElement("style");
     styles.innerHTML = `
-#elim-mount-point {
-    display: flex;
-    padding-left: 20px;
+@media screen and (min-width: 600px) {
+    #elim-mount-point {
+        display: flex;
+        padding-left: 20px;
+        margin-top: 20px;
+    }
+}
+@media screen and (max-width: 600px) {
+    #elim-mount-point {
+        display: flex;
+        position: relative;
+        top: 120px;
+    }
 }
 .elim-container {
     border: 1px solid #808080;
